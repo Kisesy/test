@@ -1,0 +1,19 @@
+language: go
+
+go:
+- 1.9
+script:
+- export CGO_ENABLED=0
+- GOOS=windows GOARCH=386 go build
+- tar cjf windows_386-${TRAVIS_TAG}.tar.bz2 test.txt test.exe
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ${TOKEN}
+  file: 
+    - "windows_386-${TRAVIS_TAG}.tar.bz2"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: Kisesy/test
