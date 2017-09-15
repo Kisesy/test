@@ -1,18 +1,35 @@
 language: go
 
 go:
-- 1.9
+- tip
 script:
-- export CGO_ENABLED=0
+- export CGO_ENABLED=0  
+- export EXE=test  
 - GOOS=windows GOARCH=386 go build
-- tar cjf windows_386-${TRAVIS_TAG}.tar.bz2 test.txt test.exe
+- tar cjf ${EXE}_windows_386-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}"
+- GOOS=windows GOARCH=amd64 go build
+- tar cjf ${EXE}_windows_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}"
+- GOOS=linux GOARCH=386 go build
+- tar cjf ${EXE}_linux_386-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
+- GOOS=linux GOARCH=amd64 go build
+- tar cjf ${EXE}_linux_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
+- GOOS=linux GOARCH=arm go build
+- tar cjf ${EXE}_linux_arm-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
+- GOOS=darwin GOARCH=amd64 go build
+- tar cjf ${EXE}_macos_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
+
 
 deploy:
   provider: releases
   api_key:
     secure: ${TOKEN}
   file: 
-    - "windows_386-${TRAVIS_TAG}.tar.bz2"
+    - "${EXE}_windows_386-${TRAVIS_TAG}.tar.bz2"
+    - "${EXE}_windows_amd64-${TRAVIS_TAG}.tar.bz2"
+    - "${EXE}_linux_386-${TRAVIS_TAG}.tar.bz2"
+    - "${EXE}_linux_amd64-${TRAVIS_TAG}.tar.bz2"
+    - "${EXE}_linux_arm-${TRAVIS_TAG}.tar.bz2"
+    - "${EXE}_macos_amd64-${TRAVIS_TAG}.tar.bz2"
   skip_cleanup: true
   on:
     tags: true
