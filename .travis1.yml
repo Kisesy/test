@@ -1,0 +1,107 @@
+language: go
+
+go:
+  - tip
+script:
+  - export EXE=test
+  - export TAR_EXCLUDE="--exclude=*.go --exclude=*.bz2 --exclude=*.gz --exclude=vendor"
+  - export CGO_ENABLED=0  
+
+  - GOOS=linux GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=arm GOARM=7 go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=arm64 GOARM=7 go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-arm64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=mips go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-mips.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=mips64 go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-mips64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=mips64le go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-mips64le.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=mipsle go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-mipsle.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=ppc64 go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-ppc64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=ppc64le go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-ppc64le.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=linux GOARCH=s390x go build -ldflags "-w -s" && tar zcfv "${EXE}-linux-s390x.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=android GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-android-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=android GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-android-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=android GOARCH=arm go build -ldflags "-w -s" && tar zcfv "${EXE}-android-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=android GOARCH=arm64 go build -ldflags "-w -s" && tar zcfv "${EXE}-android-arm64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=darwin GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-darwin-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=darwin GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-darwin-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=darwin GOARCH=arm go build -ldflags "-w -s" && tar zcfv "${EXE}-darwin-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=darwin GOARCH=arm64 go build -ldflags "-w -s" && tar zcfv "${EXE}-darwin-arm64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=dragonfly GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-dragonfly-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=freebsd GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-freebsd-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=freebsd GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-freebsd-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=freebsd GOARCH=arm go build -ldflags "-w -s" && tar zcfv "${EXE}-freebsd-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=nacl GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-nacl-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=nacl GOARCH=amd64p32 go build -ldflags "-w -s" && tar zcfv "${EXE}-nacl-amd64p32.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=nacl GOARCH=arm go build -ldflags "-w -s" && tar zcfv "${EXE}-nacl-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=netbsd GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-netbsd-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=netbsd GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-netbsd-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=netbsd GOARCH=arm go build -ldflags "-w -s" && tar zcfv "${EXE}-netbsd-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=openbsd GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-openbsd-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=openbsd GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-openbsd-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=openbsd GOARCH=arm go build -ldflags "-w -s" && tar zcfv "${EXE}-openbsd-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=plan9 GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-plan9-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=plan9 GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-plan9-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+  - GOOS=plan9 GOARCH=arm go build -ldflags "-w -s" && tar zcfv "${EXE}-plan9-arm.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=solaris GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-solaris-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}.exe"
+
+  - GOOS=windows GOARCH=386 go build -ldflags "-w -s" && tar zcfv "${EXE}-windows-386.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}" 
+  - GOOS=windows GOARCH=amd64 go build -ldflags "-w -s" && tar zcfv "${EXE}-windows-amd64.tar.gz" * ${TAR_EXCLUDE} --exclude "${EXE}" 
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ${TOKEN}
+  file: 
+    - "${EXE}-linux-386.tar.gz"
+    - "${EXE}-linux-amd64.tar.gz"
+    - "${EXE}-linux-arm.tar.gz"
+    - "${EXE}-linux-arm64.tar.gz"
+    - "${EXE}-linux-mips.tar.gz"
+    - "${EXE}-linux-mips64.tar.gz"
+    - "${EXE}-linux-mips64le.tar.gz"
+    - "${EXE}-linux-mipsle.tar.gz"
+    - "${EXE}-linux-ppc64.tar.gz"
+    - "${EXE}-linux-ppc64le.tar.gz"
+    - "${EXE}-linux-s390x.tar.gz"
+    - "${EXE}-android-386.tar.gz"
+    - "${EXE}-android-amd64.tar.gz"
+    - "${EXE}-android-arm.tar.gz"
+    - "${EXE}-android-arm64.tar.gz"
+    - "${EXE}-darwin-386.tar.gz"
+    - "${EXE}-darwin-amd64.tar.gz"
+    - "${EXE}-darwin-arm.tar.gz"
+    - "${EXE}-darwin-arm64.tar.gz"
+    - "${EXE}-dragonfly-amd64.tar.gz"
+    - "${EXE}-freebsd-386.tar.gz"
+    - "${EXE}-freebsd-amd64.tar.gz"
+    - "${EXE}-freebsd-arm.tar.gz"
+    - "${EXE}-nacl-386.tar.gz"
+    - "${EXE}-nacl-amd64p32.tar.gz"
+    - "${EXE}-nacl-arm.tar.gz"
+    - "${EXE}-netbsd-386.tar.gz"
+    - "${EXE}-netbsd-amd64.tar.gz"
+    - "${EXE}-netbsd-arm.tar.gz"
+    - "${EXE}-openbsd-386.tar.gz"
+    - "${EXE}-openbsd-amd64.tar.gz"
+    - "${EXE}-openbsd-arm.tar.gz"
+    - "${EXE}-plan9-386.tar.gz"
+    - "${EXE}-plan9-amd64.tar.gz"
+    - "${EXE}-plan9-arm.tar.gz"
+    - "${EXE}-solaris-amd64.tar.gz"
+    - "${EXE}-windows-386.tar.gz"
+    - "${EXE}-windows-amd64.tar.gz"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: Kisesy/test
+notifications:
+  email: false
