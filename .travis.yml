@@ -18,12 +18,8 @@ script:
 - GOOS=darwin GOARCH=amd64 go build
 - tar cjf ${EXE}_macos_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
 
-- sha1sum ${EXE}_windows_386-${TRAVIS_TAG}.tar.bz2
-- sha1sum ${EXE}_windows_amd64-${TRAVIS_TAG}.tar.bz2
-- sha1sum ${EXE}_linux_386-${TRAVIS_TAG}.tar.bz2
-- sha1sum ${EXE}_linux_amd64-${TRAVIS_TAG}.tar.bz2
-- sha1sum ${EXE}_linux_arm-${TRAVIS_TAG}.tar.bz2
-- sha1sum ${EXE}_macos_amd64-${TRAVIS_TAG}.tar.bz2
+- sha1sum *.bz2
+
 
 deploy:
   provider: releases
