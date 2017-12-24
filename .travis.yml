@@ -14,8 +14,8 @@ script:
 - cp -R GotoX-win_py_portable/cp35-win32/python/* GotoX-win32/python
 - cp -R GotoX-win_py_portable/cp35-win_amd64/python/* GotoX-win64/python
 
-- zip -r GotoX-win32.zip GotoX-win32
-- zip -r GotoX-win64.zip GotoX-win64
+- zip -r GotoX-${TRAVIS_TAG}-win32.zip GotoX-win32
+- zip -r GotoX-${TRAVIS_TAG}-win64.zip GotoX-win64
 
 - sha1sum *.zip
 
@@ -25,8 +25,8 @@ deploy:
   api_key:
     secure: ${TOKEN}
   file: 
-    - GotoX-win32.zip
-    - GotoX-win64.zip
+    - GotoX-${TRAVIS_TAG}-win32.zip
+    - GotoX-${TRAVIS_TAG}-win64.zip
   skip_cleanup: true
   on:
     tags: true
