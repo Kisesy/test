@@ -17,7 +17,7 @@ script:
 - zip -r GotoX-win32.zip GotoX-win32
 - zip -r GotoX-win64.zip GotoX-win64
 
-- sha1sum *.bz2
+- sha1sum *.zip
 
 
 deploy:
