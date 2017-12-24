@@ -11,7 +11,7 @@ script:
 - cp -R GotoX-master GotoX-win32
 - cp -R GotoX-master GotoX-win64
 
-- cp -R GotoX-win_py_portable/cp35-win_amd64/python/* GotoX-win32/python
+- cp -R GotoX-win_py_portable/cp35-win32/python/* GotoX-win32/python
 - cp -R GotoX-win_py_portable/cp35-win_amd64/python/* GotoX-win64/python
 
 - zip -r GotoX-win32.zip GotoX-win32
