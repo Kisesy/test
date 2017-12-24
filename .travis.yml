@@ -3,20 +3,19 @@ language: go
 go:
 - tip
 script:
-- export CGO_ENABLED=0  
-- export EXE=test  
-- GOOS=windows GOARCH=386 go build
-- tar cjf ${EXE}_windows_386-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}"
-- GOOS=windows GOARCH=amd64 go build
-- tar cjf ${EXE}_windows_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}"
-- GOOS=linux GOARCH=386 go build
-- tar cjf ${EXE}_linux_386-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
-- GOOS=linux GOARCH=amd64 go build
-- tar cjf ${EXE}_linux_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
-- GOOS=linux GOARCH=arm go build
-- tar cjf ${EXE}_linux_arm-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
-- GOOS=darwin GOARCH=amd64 go build
-- tar cjf ${EXE}_macos_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}.exe"
+- wget https://github.com/SeaHOH/GotoX/archive/master.zip
+- unzip master.zip 
+- wget https://github.com/SeaHOH/GotoX/archive/win_py_portable.zip
+- unzip win_py_portable.zip 
+
+- cp -R GotoX-master GotoX-win32
+- cp -R GotoX-master GotoX-win64
+
+- cp -R GotoX-win_py_portable/cp35-win_amd64/python/* GotoX-win32/python
+- cp -R GotoX-win_py_portable/cp35-win_amd64/python/* GotoX-win64/python
+
+- zip -r GotoX-win32.zip GotoX-win32
+- zip -r GotoX-win64.zip GotoX-win64
 
 - sha1sum *.bz2
 
@@ -26,12 +25,8 @@ deploy:
   api_key:
     secure: ${TOKEN}
   file: 
-    - "${EXE}_windows_386-${TRAVIS_TAG}.tar.bz2"
-    - "${EXE}_windows_amd64-${TRAVIS_TAG}.tar.bz2"
-    - "${EXE}_linux_386-${TRAVIS_TAG}.tar.bz2"
-    - "${EXE}_linux_amd64-${TRAVIS_TAG}.tar.bz2"
-    - "${EXE}_linux_arm-${TRAVIS_TAG}.tar.bz2"
-    - "${EXE}_macos_amd64-${TRAVIS_TAG}.tar.bz2"
+    - GotoX-win32.zip
+    - GotoX-win64.zip
   skip_cleanup: true
   on:
     tags: true
