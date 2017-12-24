@@ -6,7 +6,7 @@ script:
 - export CGO_ENABLED=0  
 - export EXE=test  
 - GOOS=windows GOARCH=386 go build
-- tar cjf ${EXE}_windows_386-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}"
+- tar cjf ${EXE}_${GOOS}_${GOARCH}-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}"
 - GOOS=windows GOARCH=amd64 go build
 - tar cjf ${EXE}_windows_amd64-${TRAVIS_TAG}.tar.bz2 * --exclude "*.go" --exclude "*.bz2" --exclude "${EXE}"
 - GOOS=linux GOARCH=386 go build
