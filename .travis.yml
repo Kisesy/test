@@ -1,7 +1,12 @@
-language: go
+# language: go
 
-go:
-- tip
+# go:
+# - tip
+
+before_install:
+- sudo apt-get install p7zip
+- sudo apt-get install p7zip-full
+
 script:
 - wget https://github.com/SeaHOH/GotoX/archive/master.zip
 - unzip master.zip 
@@ -17,8 +22,11 @@ script:
 - zip -r GotoX-${TRAVIS_TAG}-win32.zip GotoX-win32
 - zip -r GotoX-${TRAVIS_TAG}-win64.zip GotoX-win64
 
-- sha1sum *.zip
+- 7za a -r -mx=9 GotoX-${TRAVIS_TAG}-win32.7z GotoX-win32/*
+- 7za a -r -mx=9 GotoX-${TRAVIS_TAG}-win64.7z GotoX-win64/*
 
+- sha1sum *.zip
+- sha1sum *.7z
 
 deploy:
   provider: releases
@@ -27,6 +35,10 @@ deploy:
   file: 
     - GotoX-${TRAVIS_TAG}-win32.zip
     - GotoX-${TRAVIS_TAG}-win64.zip
+
+    - GotoX-${TRAVIS_TAG}-win32.7z
+    - GotoX-${TRAVIS_TAG}-win64.7z
+
   skip_cleanup: true
   on:
     tags: true
