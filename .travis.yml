@@ -1,43 +1,47 @@
-# language: go
+language: go
 
-# go:
-# - tip
+go:
+- tip
+install:
+- go get github.com/Kisesy/gscan_quic
 
 before_install:
-- sudo apt-get install p7zip
 - sudo apt-get install p7zip-full
 
 script:
-- wget https://github.com/SeaHOH/GotoX/archive/master.zip
-- unzip master.zip 
-- wget https://github.com/SeaHOH/GotoX/archive/win_py_portable.zip
-- unzip win_py_portable.zip 
+- git clone https://github.com/Kisesy/gscan_quic.git
+- cd gscan_quic/
 
-- cp -R GotoX-master GotoX-win32
-- cp -R GotoX-master GotoX-win64
+- export EXE=gscan_quic
+- export TAR_EXCLUDE="--exclude=*.go --exclude=*.bz2 --exclude=*.7z --exclude=vendor"
 
-- cp -R GotoX-win_py_portable/cp35-win32/python/* GotoX-win32/python
-- cp -R GotoX-win_py_portable/cp35-win_amd64/python/* GotoX-win64/python
+- export GOOS=windows GOARCH=386 && go build -ldflags "-w -s"
+- 7za a ${EXE}_${GOOS}_${GOARCH}-${TRAVIS_TAG}.7z -ms=on -mx=9 -r- -mmt -x'!*.go' -x'!*.7z' -x'!*.zip' -x'!vendor/' *
+- rm *.exe
+- export GOOS=windows GOARCH=amd64 && go build -ldflags "-w -s"
+- 7za a ${EXE}_${GOOS}_${GOARCH}-${TRAVIS_TAG}.7z -ms=on -mx=9 -r- -mmt -x'!*.go' -x'!*.7z' -x'!*.zip' -x'!vendor/' *
+- rm *.exe
 
-- zip -r GotoX-${TRAVIS_TAG}-win32.zip GotoX-win32
-- zip -r GotoX-${TRAVIS_TAG}-win64.zip GotoX-win64
+- export GOOS=linux GOARCH=386 && go build -ldflags "-w -s"
+- tar cjf ${EXE}_${GOOS}_${GOARCH}-${TRAVIS_TAG}.tar.bz2 * ${TAR_EXCLUDE}
+- export GOOS=linux GOARCH=amd64 && go build -ldflags "-w -s"
+- tar cjf ${EXE}_${GOOS}_${GOARCH}-${TRAVIS_TAG}.tar.bz2 * ${TAR_EXCLUDE}
+- export GOOS=linux GOARCH=arm && go build -ldflags "-w -s"
+- tar cjf ${EXE}_${GOOS}_${GOARCH}-${TRAVIS_TAG}.tar.bz2 * ${TAR_EXCLUDE}
+- export GOOS=darwin GOARCH=amd64 && go build -ldflags "-w -s"
+- tar cjf ${EXE}_${GOOS}_${GOARCH}-${TRAVIS_TAG}.tar.bz2 * ${TAR_EXCLUDE}
 
-- 7za a -r -mx=9 GotoX-${TRAVIS_TAG}-win32.7z GotoX-win32/*
-- 7za a -r -mx=9 GotoX-${TRAVIS_TAG}-win64.7z GotoX-win64/*
-
-- sha1sum *.zip
+- sha1sum *.bz2
 - sha1sum *.7z
 
 deploy:
   provider: releases
   api_key:
     secure: ${TOKEN}
+  file_glob: true
   file: 
-    - GotoX-${TRAVIS_TAG}-win32.zip
-    - GotoX-${TRAVIS_TAG}-win64.zip
-
-    - GotoX-${TRAVIS_TAG}-win32.7z
-    - GotoX-${TRAVIS_TAG}-win64.7z
+    - "*.7z"
+    - "*.bz2"
 
   skip_cleanup: true
   on:
